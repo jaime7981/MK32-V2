@@ -116,7 +116,7 @@ extern "C" void battery_reports(void *pvParameters) {
 		}
 		void* pReport = (void*) &bat_level;
 
-		ESP_LOGI("Battery Monitor","battery level %d", bat_level);
+		ESP_LOGI("Battery Monitor","battery level %d", (int)bat_level);
 		if(BLE_EN == 1){
 			xQueueSend(battery_q, pReport, (TickType_t) 0);
 		}
