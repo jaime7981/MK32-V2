@@ -27,6 +27,9 @@
 #include "keyboard_config.h"
 #include "esp_sleep.h"
 #include "esp_log.h"
+#include "rom/gpio.h"
+#include "esp_timer.h"
+
 #define GPIO_TAG "GPIO"
 /* Define pins, notice that:
  * GPIO6-11 are usually used for SPI flash
@@ -35,7 +38,7 @@
  */
 const gpio_num_t MATRIX_ROWS_PINS[] = { GPIO_NUM_0, GPIO_NUM_2, GPIO_NUM_4,
 		GPIO_NUM_12, GPIO_NUM_13, GPIO_NUM_14 };
-const gpio_num_t MATRIX_COLS_PINS[] = { GPIO_NUM_15, GPIO_NUM_25, GPIO_NUM_26,
+const gpio_num_t MATRIX_COLS_PINS[] = { GPIO_NUM_15, GPIO_NUM_45, GPIO_NUM_26,
 		GPIO_NUM_27, GPIO_NUM_32, GPIO_NUM_33 };
 
 // matrix states

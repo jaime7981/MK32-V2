@@ -29,7 +29,6 @@
 #include "esp_system.h"
 #include "driver/gpio.h"
 #include "driver/adc.h"
-#include "esp_adc.h"
 #include "keyboard_config.h"
 
 #include "battery_monitor.h"

@@ -28,6 +28,7 @@
 #include "oled_tasks.h"
 #include "nvs_keymaps.h"
 #include "plugin_manager.h"
+#include "esp_timer.h"
 
 #define KEY_PRESS_TAG "KEY_PRESS"
 
