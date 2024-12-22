@@ -88,5 +88,5 @@ idf_component_register(SRCS "oled_tasks.c"
                             "u8x8_string.c"
                             "u8x8_u8toa.c"
                             "u8x8_u16toa.c"
-                    INCLUDE_DIRS "include" "${CMAKE_SOURCE_DIR}/main"
+                    INCLUDE_DIRS "include" "${CMAKE_SOURCE_DIR}/src"
                     REQUIRES "battery" "nvsfuncs")
