@@ -26,6 +26,7 @@
 #include "key_definitions.h"
 #include "driver/pcnt.h"
 #include "hal_ble.h"
+#include "rom/gpio.h"
 
 int PastEncoderCount=0;
 

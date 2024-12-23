@@ -25,7 +25,7 @@
 #include "cJSON.h"
 #define LAYOUT_TAG "Layout server"
 
-#define delay(ms) (vTaskDelay(ms/portTICK_RATE_MS))
+#define delay(ms) (vTaskDelay(ms/portTICK_PERIOD_MS))
 char* json_unformatted;
 
 const static char http_html_hdr[] =
