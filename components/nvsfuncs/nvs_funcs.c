@@ -52,7 +52,14 @@ uint16_t ***layouts;
 uint16_t **encoder_map;
 uint16_t **slave_encoder_map;
 
-uint16_t default_encoder_map[LAYERS][ENCODER_SIZE];
+uint16_t default_encoder_map[LAYERS][ENCODER_SIZE] = {};
+uint16_t default_slave_encoder_map[LAYERS][ENCODER_SIZE] = {};
+
+char default_layout_names[LAYERS][MAX_LAYOUT_NAME_LENGTH] = { 
+	"QWERTY", 
+	"NUM",
+	"Plugins",
+};
 
 //read a layout from nvs
 void nvs_read_layout(const char* layout_name,uint16_t buffer[MATRIX_ROWS][KEYMAP_COLS]){

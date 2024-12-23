@@ -41,6 +41,7 @@ uint8_t KEY_STATE[MATRIX_ROWS][KEYMAP_COLS] = { 0 };
 uint16_t led_status = 0;
 uint8_t modifier = 0;
 uint16_t keycode = 0;
+uint8_t current_layout = 0;
 
 // Sizing the report for N-key rollover
 uint8_t current_report[REPORT_LEN] = { 0 };
@@ -51,6 +52,11 @@ uint8_t macro_release[3] = { 0 };
 // Flag in order to know when to ignore layer change on layer hold
 uint8_t layer_hold_flag = 0;
 uint8_t prev_layout = 0;
+
+uint16_t macros[MACROS_NUM][MACRO_LEN] = {
+	{ KC_LCTRL, KC_LALT, KC_DEL }, // CTRL+ALT+DEL
+	{ KC_RALT, KC_LALT, KC_NO }    //ALT +F4 
+};
 
 // checking if a modifier key was pressed
 uint16_t check_modifier(uint16_t key) {

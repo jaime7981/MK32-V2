@@ -16,6 +16,8 @@
 #define NVS_CONFIG_OK 1
 #define NVS_CONFIG_ERR 0
 
+extern uint16_t default_encoder_map[LAYERS][ENCODER_SIZE];
+
 #ifdef __cplusplus
 extern "C" {
 #endif
