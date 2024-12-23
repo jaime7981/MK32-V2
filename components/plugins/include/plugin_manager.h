@@ -15,7 +15,7 @@ extern "C" {
 #include "keycode_conv.h"
 #include "wifi_manager.h"
 
-uint8_t pluginEn;
+extern uint8_t pluginEn;
 typedef void(*func_t)( void * pvParameters); //just to make things easier
 /*
  * @brief start a plugin FreeRTOS task

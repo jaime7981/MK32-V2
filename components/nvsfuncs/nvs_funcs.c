@@ -37,7 +37,7 @@
 #define ENCODER_NAMESPACE "encoder_config"
 #define SLAVE_ENCODER_NAMESPACE "slave_encoder_config"
 
-esp_err_t err;
+esp_err_t esp_error;
 
 nvs_handle keymap_handle;
 nvs_handle encoder_handle;
@@ -52,23 +52,25 @@ uint16_t ***layouts;
 uint16_t **encoder_map;
 uint16_t **slave_encoder_map;
 
+uint16_t default_encoder_map[LAYERS][ENCODER_SIZE];
+
 //read a layout from nvs
 void nvs_read_layout(const char* layout_name,uint16_t buffer[MATRIX_ROWS][KEYMAP_COLS]){
 	ESP_LOGI(NVS_TAG,"Opening NVS handle");
 	uint16_t layout[MATRIX_ROWS][KEYMAP_COLS] = {0};
-	err = nvs_open(KEYMAP_NAMESPACE, NVS_READWRITE, &keymap_handle);
-	if (err != ESP_OK) {
-		ESP_LOGE(NVS_TAG,"Error (%s) opening NVS handle!\n", esp_err_to_name(err));
+	esp_error = nvs_open(KEYMAP_NAMESPACE, NVS_READWRITE, &keymap_handle);
+	if (esp_error != ESP_OK) {
+		ESP_LOGE(NVS_TAG,"Error (%s) opening NVS handle!\n", esp_err_to_name(esp_error));
 	} else {
 		ESP_LOGI(NVS_TAG,"NVS Handle opened successfully");
 	}
 	uint16_t layout_arr[MATRIX_ROWS*KEYMAP_COLS] = {0};
 	size_t arr_size;
 	//get blob array size
-	err = nvs_get_blob(keymap_handle, layout_name, NULL, &arr_size);
-	err = nvs_get_blob(keymap_handle,layout_name,layout_arr,&arr_size);
-	if (err != ESP_OK) {
-		ESP_LOGE(NVS_TAG, "Error getting layout: %s", esp_err_to_name(err));
+	esp_error = nvs_get_blob(keymap_handle, layout_name, NULL, &arr_size);
+	esp_error = nvs_get_blob(keymap_handle,layout_name,layout_arr,&arr_size);
+	if (esp_error != ESP_OK) {
+		ESP_LOGE(NVS_TAG, "Error getting layout: %s", esp_err_to_name(esp_error));
 
 	}
 	else{
@@ -84,18 +86,18 @@ void nvs_read_layout(const char* layout_name,uint16_t buffer[MATRIX_ROWS][KEYMAP
 void nvs_read_encoder_layout(const char* layout_name,uint16_t buffer[ENCODER_SIZE]){
 	ESP_LOGI(NVS_TAG,"Opening NVS handle");
 	uint16_t layout[ENCODER_SIZE] = {0};
-	err = nvs_open(ENCODER_NAMESPACE, NVS_READWRITE, &encoder_handle);
-	if (err != ESP_OK) {
-		ESP_LOGE(NVS_TAG,"Error (%s) opening NVS handle!\n", esp_err_to_name(err));
+	esp_error = nvs_open(ENCODER_NAMESPACE, NVS_READWRITE, &encoder_handle);
+	if (esp_error != ESP_OK) {
+		ESP_LOGE(NVS_TAG,"Error (%s) opening NVS handle!\n", esp_err_to_name(esp_error));
 	} else {
 		ESP_LOGI(NVS_TAG,"NVS Handle opened successfully");
 	}
 	size_t arr_size;
 	//get blob array size
-	err = nvs_get_blob(keymap_handle, layout_name, NULL, &arr_size);
-	err = nvs_get_blob(keymap_handle,layout_name,layout,&arr_size);
-	if (err != ESP_OK) {
-		ESP_LOGE(NVS_TAG, "Error getting layout: %s", esp_err_to_name(err));
+	esp_error = nvs_get_blob(keymap_handle, layout_name, NULL, &arr_size);
+	esp_error = nvs_get_blob(keymap_handle,layout_name,layout,&arr_size);
+	if (esp_error != ESP_OK) {
+		ESP_LOGE(NVS_TAG, "Error getting layout: %s", esp_err_to_name(esp_error));
 
 	}
 	else{
@@ -110,15 +112,15 @@ void nvs_read_encoder_layout(const char* layout_name,uint16_t buffer[ENCODER_SIZ
 void nvs_write_encoder_layout(uint16_t encoder_layout_arr[ENCODER_SIZE], const char* encoder_layout_name){
 
 	ESP_LOGI(NVS_TAG,"Opening NVS handle");
-	err = nvs_open(SLAVE_ENCODER_NAMESPACE, NVS_READWRITE, &slave_encoder_handle);
-	if (err != ESP_OK) {
-		ESP_LOGE(NVS_TAG,"Error (%s) opening NVS handle!\n", esp_err_to_name(err));
+	esp_error = nvs_open(SLAVE_ENCODER_NAMESPACE, NVS_READWRITE, &slave_encoder_handle);
+	if (esp_error != ESP_OK) {
+		ESP_LOGE(NVS_TAG,"Error (%s) opening NVS handle!\n", esp_err_to_name(esp_error));
 	} else {
 		ESP_LOGI(NVS_TAG,"NVS Handle opened successfully");
 	}
-	err = nvs_set_blob(keymap_handle,encoder_layout_name, encoder_layout_arr,sizeof(*encoder_layout_arr));
-	if (err != ESP_OK) {
-		ESP_LOGE(NVS_TAG, "Error writing layout: %s", esp_err_to_name(err));
+	esp_error = nvs_set_blob(keymap_handle,encoder_layout_name, encoder_layout_arr,sizeof(*encoder_layout_arr));
+	if (esp_error != ESP_OK) {
+		ESP_LOGE(NVS_TAG, "Error writing layout: %s", esp_err_to_name(esp_error));
 	}
 	else{
 		ESP_LOGI(NVS_TAG, "Success writing layout");
@@ -131,18 +133,18 @@ void nvs_write_encoder_layout(uint16_t encoder_layout_arr[ENCODER_SIZE], const c
 void nvs_read_slave_encoder_layout(const char* layout_name,uint16_t buffer[ENCODER_SIZE]){
 	ESP_LOGI(NVS_TAG,"Opening NVS handle");
 	uint16_t layout[ENCODER_SIZE] = {0};
-	err = nvs_open(SLAVE_ENCODER_NAMESPACE, NVS_READWRITE, &slave_encoder_handle);
-	if (err != ESP_OK) {
-		ESP_LOGE(NVS_TAG,"Error (%s) opening NVS handle!\n", esp_err_to_name(err));
+	esp_error = nvs_open(SLAVE_ENCODER_NAMESPACE, NVS_READWRITE, &slave_encoder_handle);
+	if (esp_error != ESP_OK) {
+		ESP_LOGE(NVS_TAG,"Error (%s) opening NVS handle!\n", esp_err_to_name(esp_error));
 	} else {
 		ESP_LOGI(NVS_TAG,"NVS Handle opened successfully");
 	}
 	size_t arr_size;
 	//get blob array size
-	err = nvs_get_blob(keymap_handle, layout_name, NULL, &arr_size);
-	err = nvs_get_blob(keymap_handle,layout_name,layout,&arr_size);
-	if (err != ESP_OK) {
-		ESP_LOGE(NVS_TAG, "Error getting layout: %s", esp_err_to_name(err));
+	esp_error = nvs_get_blob(keymap_handle, layout_name, NULL, &arr_size);
+	esp_error = nvs_get_blob(keymap_handle,layout_name,layout,&arr_size);
+	if (esp_error != ESP_OK) {
+		ESP_LOGE(NVS_TAG, "Error getting layout: %s", esp_err_to_name(esp_error));
 
 	}
 	else{
@@ -157,15 +159,15 @@ void nvs_read_slave_encoder_layout(const char* layout_name,uint16_t buffer[ENCOD
 void nvs_write_slave_encoderlayout_(uint16_t encoder_layout_arr[ENCODER_SIZE], const char* encoder_layout_name){
 
 	ESP_LOGI(NVS_TAG,"Opening NVS handle");
-	err = nvs_open(ENCODER_NAMESPACE, NVS_READWRITE, &encoder_handle);
-	if (err != ESP_OK) {
-		ESP_LOGE(NVS_TAG,"Error (%s) opening NVS handle!\n", esp_err_to_name(err));
+	esp_error = nvs_open(ENCODER_NAMESPACE, NVS_READWRITE, &encoder_handle);
+	if (esp_error != ESP_OK) {
+		ESP_LOGE(NVS_TAG,"Error (%s) opening NVS handle!\n", esp_err_to_name(esp_error));
 	} else {
 		ESP_LOGI(NVS_TAG,"NVS Handle opened successfully");
 	}
-	err = nvs_set_blob(keymap_handle,encoder_layout_name, encoder_layout_arr,sizeof(*encoder_layout_arr));
-	if (err != ESP_OK) {
-		ESP_LOGE(NVS_TAG, "Error writing layout: %s", esp_err_to_name(err));
+	esp_error = nvs_set_blob(keymap_handle,encoder_layout_name, encoder_layout_arr,sizeof(*encoder_layout_arr));
+	if (esp_error != ESP_OK) {
+		ESP_LOGE(NVS_TAG, "Error writing layout: %s", esp_err_to_name(esp_error));
 	}
 	else{
 		ESP_LOGI(NVS_TAG, "Success writing layout");
@@ -178,18 +180,18 @@ void nvs_write_slave_encoderlayout_(uint16_t encoder_layout_arr[ENCODER_SIZE], c
 void nvs_write_layout_matrix(uint16_t layout[MATRIX_ROWS][KEYMAP_COLS], const char* layout_name){
 
 	ESP_LOGI(NVS_TAG,"Opening NVS handle");
-	err = nvs_open(KEYMAP_NAMESPACE, NVS_READWRITE, &keymap_handle);
-	if (err != ESP_OK) {
-		ESP_LOGE(NVS_TAG,"Error (%s) opening NVS handle!\n", esp_err_to_name(err));
+	esp_error = nvs_open(KEYMAP_NAMESPACE, NVS_READWRITE, &keymap_handle);
+	if (esp_error != ESP_OK) {
+		ESP_LOGE(NVS_TAG,"Error (%s) opening NVS handle!\n", esp_err_to_name(esp_error));
 	} else {
 		ESP_LOGI(NVS_TAG,"NVS Handle opened successfully");
 	}
 	uint16_t layout_arr[MATRIX_ROWS*KEYMAP_COLS] = {0};
 	key_mat_to_blob(layout,layout_arr);
 
-	err = nvs_set_blob(keymap_handle,layout_name, layout_arr,sizeof(layout_arr));
-	if (err != ESP_OK) {
-		ESP_LOGE(NVS_TAG, "Error writing layout: %s", esp_err_to_name(err));
+	esp_error = nvs_set_blob(keymap_handle,layout_name, layout_arr,sizeof(layout_arr));
+	if (esp_error != ESP_OK) {
+		ESP_LOGE(NVS_TAG, "Error writing layout: %s", esp_err_to_name(esp_error));
 	}
 	else{
 		ESP_LOGI(NVS_TAG, "Success writing layout");
@@ -241,17 +243,17 @@ void nvs_write_layout(uint16_t layout[MATRIX_ROWS][KEYMAP_COLS], const char* lay
 void nvs_read_keymap_cfg(void){
 	free(layer_names_arr);
 	ESP_LOGI(NVS_TAG,"Opening NVS handle");
-	err = nvs_open(KEYMAP_NAMESPACE, NVS_READWRITE, &keymap_handle);
-	if (err != ESP_OK) {
-		ESP_LOGE(NVS_TAG,"Error (%s) opening NVS handle!\n", esp_err_to_name(err));
+	esp_error = nvs_open(KEYMAP_NAMESPACE, NVS_READWRITE, &keymap_handle);
+	if (esp_error != ESP_OK) {
+		ESP_LOGE(NVS_TAG,"Error (%s) opening NVS handle!\n", esp_err_to_name(esp_error));
 	} else {
 		ESP_LOGI(NVS_TAG,"NVS Handle opened successfully");
 	}
 
 	uint8_t layers=0;
-	err =nvs_get_u8(keymap_handle, LAYOUT_NUM, &layers);
-	if (err != ESP_OK) {
-		ESP_LOGE(NVS_TAG, "Error getting layout num: %s", esp_err_to_name(err));
+	esp_error =nvs_get_u8(keymap_handle, LAYOUT_NUM, &layers);
+	if (esp_error != ESP_OK) {
+		ESP_LOGE(NVS_TAG, "Error getting layout num: %s", esp_err_to_name(esp_error));
 	}
 	else{
 		ESP_LOGI(NVS_TAG, "Success getting layout num");
@@ -259,14 +261,14 @@ void nvs_read_keymap_cfg(void){
 	//set string array size
 	size_t str_size;
 	//get string array size
-	err = nvs_get_str(keymap_handle, LAYOUT_NAMES, NULL, &str_size);
-	if (err != ESP_OK) {
-		ESP_LOGI(NVS_TAG, "Error getting layout names size: %s", esp_err_to_name(err));
+	esp_error = nvs_get_str(keymap_handle, LAYOUT_NAMES, NULL, &str_size);
+	if (esp_error != ESP_OK) {
+		ESP_LOGI(NVS_TAG, "Error getting layout names size: %s", esp_err_to_name(esp_error));
 	}
 	char *layer_names = (char *)malloc(str_size);
-	err = nvs_get_str(keymap_handle,LAYOUT_NAMES, layer_names, &str_size);
-	if (err != ESP_OK) {
-		ESP_LOGE(NVS_TAG, "Error getting layout name: %s", esp_err_to_name(err));
+	esp_error = nvs_get_str(keymap_handle,LAYOUT_NAMES, layer_names, &str_size);
+	if (esp_error != ESP_OK) {
+		ESP_LOGE(NVS_TAG, "Error getting layout name: %s", esp_err_to_name(esp_error));
 	}
 	else{
 		ESP_LOGI(NVS_TAG, "Success getting layout name");
@@ -289,24 +291,24 @@ void nvs_write_keymap_cfg(uint8_t layers, char (*layer_names_arr)[MAX_LAYOUT_NAM
 	str_arr_to_str(layer_names_arr,layers,&layer_names);
 
 	ESP_LOGI(NVS_TAG,"Opening NVS handle");
-	err = nvs_open(KEYMAP_NAMESPACE, NVS_READWRITE, &keymap_handle);
-	if (err != ESP_OK) {
-		ESP_LOGE(NVS_TAG,"Error (%s) opening NVS handle!\n", esp_err_to_name(err));
+	esp_error = nvs_open(KEYMAP_NAMESPACE, NVS_READWRITE, &keymap_handle);
+	if (esp_error != ESP_OK) {
+		ESP_LOGE(NVS_TAG,"Error (%s) opening NVS handle!\n", esp_err_to_name(esp_error));
 	} else {
 		ESP_LOGI(NVS_TAG,"NVS Handle opened successful");
 	}
 
-	err =nvs_set_u8(keymap_handle, LAYOUT_NUM, layers);
-	if (err != ESP_OK) {
-		ESP_LOGE(NVS_TAG, "Error setting layout num: %s", esp_err_to_name(err));
+	esp_error =nvs_set_u8(keymap_handle, LAYOUT_NUM, layers);
+	if (esp_error != ESP_OK) {
+		ESP_LOGE(NVS_TAG, "Error setting layout num: %s", esp_err_to_name(esp_error));
 	}
 	else{
 		ESP_LOGI(NVS_TAG, "Success setting layout num");
 	}
 
-	err = nvs_set_str(keymap_handle,LAYOUT_NAMES, layer_names);
-	if (err != ESP_OK) {
-		ESP_LOGE(NVS_TAG, "Error setting layout names: %s", esp_err_to_name(err));
+	esp_error = nvs_set_str(keymap_handle,LAYOUT_NAMES, layer_names);
+	if (esp_error != ESP_OK) {
+		ESP_LOGE(NVS_TAG, "Error setting layout names: %s", esp_err_to_name(esp_error));
 	}
 	else{
 		ESP_LOGI(NVS_TAG, "Success setting layout names");

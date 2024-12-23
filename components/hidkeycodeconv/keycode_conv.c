@@ -58,6 +58,9 @@ CHAR_ILLEGAL, CHAR_ILLEGAL, CHAR_ILLEGAL, CHAR_ILLEGAL, /* 81-84 */
 '6', '7', '8', '9', '0', '.', 0xb1, /* 97-100 */
 };
 
+int BLE_EN = 0;
+QueueHandle_t input_str_q;
+
 void suspend_ble(void) {
 	BLE_EN = 0;
 	ESP_LOGI(TAG, "Suspending hid reports");

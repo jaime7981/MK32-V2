@@ -14,7 +14,7 @@ extern "C" {
 
 #include "plugin_manager.h"
 
-uint8_t killServer;
+extern uint8_t killServer;
 
 #define OPENSSL_EXAMPLE_TASK_NAME        "openssl_example"
 #define OPENSSL_EXAMPLE_TASK_STACK_WORDS 10240
