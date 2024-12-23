@@ -412,8 +412,6 @@ static void event_handler(void* arg, esp_event_base_t event_base,
         ESP_LOGI(TAG,"connect to the AP fail");
     } else if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP) {
         ip_event_got_ip_t* event = (ip_event_got_ip_t*) event_data;
-        ESP_LOGI(TAG, "got ip:%s",
-                 ip4addr_ntoa(&event->ip_info.ip));
         s_retry_num = 0;
         xEventGroupSetBits(s_wifi_event_group, WIFI_CONNECTED_BIT);
     }
@@ -446,7 +444,6 @@ uint8_t wifi_connection_init(void){
 	uint16_t num_records = 0;
 	wifi_ap_record_t* ap_records;
 	wifi_sta_config_t sta_config;
-	tcpip_adapter_ip_info_t ip_info;
 	;
 
 	// if the keyboards does not use esp now we need to init wifi
@@ -532,7 +529,6 @@ uint8_t wifi_connection_init(void){
 								ESP_LOGE(WIFI_TAG, "Error connecting to %s AP: %s", sta_config.ssid, esp_err_to_name(err));
 							}else{
 								ESP_LOGI(WIFI_TAG, "Success connecting to %s AP config",sta_config.ssid);
-								ESP_LOGI(WIFI_TAG, "IP Address: %s ,Subnet mask: %s Subnet mask: %s",ip4addr_ntoa(&ip_info.ip),ip4addr_ntoa(&ip_info.netmask),ip4addr_ntoa(&ip_info.gw));
 								return SUCCESS;
 							}
 						}
