@@ -28,7 +28,7 @@
 #include "freertos/timers.h"
 #include "nvs_flash.h"
 #include "esp_event_loop.h"
-#include "tcpip_adapter.h"
+#include "esp_netif.h"
 #include "esp_wifi.h"
 #include "esp_wifi_types.h"
 #include "esp_log.h"
@@ -54,7 +54,7 @@ static void wifi_initialize_receive(void){
 	ESP_LOGI(ESP_NOW_TAG,"Initialing WiFi");
 	uint8_t slave_mac_adr[6];
 
-	tcpip_adapter_init();
+	esp_netif_init();
 	ESP_ERROR_CHECK(esp_event_loop_create_default());
 	wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
 	ESP_ERROR_CHECK(esp_wifi_init(&cfg));
