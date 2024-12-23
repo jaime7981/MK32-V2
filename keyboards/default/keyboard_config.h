@@ -48,7 +48,7 @@
 //#define OLED_ENABLE //undefine if no oled is used
 #define ROTATION DEG270
 #define OLED_SDA_PIN GPIO_NUM_21
-#define OLED_SCL_PIN GPIO_NUM_22
+#define OLED_SCL_PIN GPIO_NUM_42
 
 /*Battery monitoring
  * Please read check battery_monitor.h for resistor values before applying

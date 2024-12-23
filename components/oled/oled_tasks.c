@@ -110,7 +110,7 @@ void update_oled(void) {
 	if (battery_percent != prev_battery_percent) {
 		u8g2_SetFont(&u8g2, u8g2_font_5x7_tf);
 		char buf[sizeof(uint32_t)];
-		snprintf(buf, sizeof(uint32_t), "%d", battery_percent);
+		snprintf(buf, sizeof(uint32_t), "%d", (int)battery_percent);
 		u8g2_DrawStr(&u8g2, 103 + offset_x_batt , 7 + offset_y_batt, "%");
 		if ((battery_percent < 100)
 				&& (abs(battery_percent - prev_battery_percent) >= 2)) {
@@ -167,7 +167,7 @@ void ble_connected_oled(void) {
 
 	u8g2_SetFont(&u8g2, u8g2_font_5x7_tf);
 	char buf[sizeof(uint32_t)];
-	snprintf(buf, sizeof(uint32_t), "%d", battery_percent);
+	snprintf(buf, sizeof(uint32_t), "%d", (int)battery_percent);
 	u8g2_DrawStr(&u8g2, + offset_x_batt, + offset_y_batt, "%");
 	if (battery_percent < 100) {
 		u8g2_DrawStr(&u8g2, + offset_x_batt, 7 + offset_y_batt , buf);
@@ -192,7 +192,7 @@ void ble_slave_oled(void) {
 
 		u8g2_SetFont(&u8g2, u8g2_font_5x7_tf);
 		char buf[sizeof(uint32_t)];
-		snprintf(buf, sizeof(uint32_t), "%d", battery_percent);
+		snprintf(buf, sizeof(uint32_t), "%d", (int)battery_percent);
 		u8g2_DrawStr(&u8g2, 103 + offset_x_batt, 7 + offset_y_batt, "%");
 		if ((battery_percent < 100)
 				&& (battery_percent - prev_battery_percent >= 2)) {
@@ -241,7 +241,7 @@ void waiting_oled(void) {
 	u8g2_DrawStr(&u8g2, 0, 6, GATTS_TAG);
 
 	char buf[sizeof(uint32_t)];
-	snprintf(buf, sizeof(uint32_t), "%d", battery_percent);
+	snprintf(buf, sizeof(uint32_t), "%d", (int)battery_percent);
 	u8g2_DrawStr(&u8g2, 103 + offset_x_batt, 7 + offset_y_batt, "%");
 	if ((battery_percent < 100)
 			&& (battery_percent - prev_battery_percent >= 2)) {
